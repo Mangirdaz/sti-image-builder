@@ -22,7 +22,15 @@ fi
 
 
 pushd $source_dir >/dev/null
-  # Checkout desired ref
+  
+  #for context we need to change dir
+  if ! [ -z "$CONTEXT_DIR" ]; then
+    echo "Changing context folder"
+    CONTEXT=$(echo $CONTEXT_DIR | sed -r 's/\///g')
+      cd $CONTEXT
+  fi
+
+   # Checkout desired ref
   if ! [ -z "$SOURCE_REF" ]; then
     git checkout $SOURCE_REF
   fi
@@ -42,7 +50,7 @@ pushd $source_dir >/dev/null
   # Execute tests
   ./test/run
   result=$?
-  if [ $result -eq 0]; then
+  if [ $result -eq 0 ]; then
     echo "[SUCCESS] ${IMAGE_NAME} image tests executed successfully"
   else
     echo "[FAILURE] ${IMAGE_NAME} image tests failed ($result)"

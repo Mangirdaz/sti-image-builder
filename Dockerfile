@@ -1,12 +1,10 @@
 FROM centos:centos7
 
-RUN yum install -y --enablerepo=centosplus epel-release gettext tar automake \
-      make git docker
-
-# TODO: STI should be installed from official release page, instead of bundling
-#       it in the GIT repository.
-ADD bin/sti.gz /usr/bin/sti.gz
-RUN gunzip /usr/bin/sti.gz
+RUN yum install -y --enablerepo=centosplus epel-release gettext wget tar automake \
+      make git docker ; yum clean all
+      
+RUN wget https://github.com/openshift/source-to-image/releases/download/v1.1.2/source-to-image-v1.1.2-5732fdd-linux-386.tar.gz -P /tmp/ ; \
+    tar -xvzf /tmp/source-to-image-v1.1.2-5732fdd-linux-386.tar.gz -C /usr/local/bin/ 
 
 ADD bin/build.sh /buildroot/build.sh
 
