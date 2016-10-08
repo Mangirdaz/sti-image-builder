@@ -11,7 +11,10 @@ if [ -z "${IMAGE_NAME}" ]; then
 fi
 
 # Clone the STI image repository
+echo "git clone $SOURCE_URI"
 git clone $SOURCE_URI
+ls -la *
+env
 if ! [ $? -eq 0 ]; then
   echo "[ERROR] Unable to clone the STI image repository."
   exit $result
