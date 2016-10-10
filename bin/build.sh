@@ -22,16 +22,16 @@ fi
 
 pushd $source_dir >/dev/null
   
-  #for context we need to change dir
+   # Checkout desired ref
+  if ! [ -z "$SOURCE_REF" ]; then
+    git checkout $SOURCE_REF
+  fi
+
+    #for context we need to change dir
   if ! [ -z "$CONTEXT_DIR" ]; then
     echo "Changing context folder"
     CONTEXT=$(echo $CONTEXT_DIR | sed -r 's/\///g')
       cd $CONTEXT
-  fi
-
-   # Checkout desired ref
-  if ! [ -z "$SOURCE_REF" ]; then
-    git checkout $SOURCE_REF
   fi
 
   docker build -t ${IMAGE_NAME}-candidate .
